@@ -13,19 +13,19 @@ Docker for android project for GitLab-CI or others.
 
 ## Download
 
-```bash
+```shell
 docker pull yourtion/android
 ```
 
 ## Usage
 
-```bash
-sudo docker run -t -i yourtion/android:latest /bin/bash
+```shell
+sudo docker run -t -i yourtion/android:latest /bin/shell
 ```
 
 ## Env
 
-```bash
+```shell
 ENV SDK_HOME /usr/local
 ENV ANDROID_HOME ${SDK_HOME}/android-sdk-linux
 ENV ANDROID_SDK ${SDK_HOME}/android-sdk-linux

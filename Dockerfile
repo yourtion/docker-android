@@ -22,6 +22,10 @@ ENV ANDROID_HOME ${SDK_HOME}/android-sdk-linux
 ENV ANDROID_SDK ${SDK_HOME}/android-sdk-linux
 ENV PATH ${ANDROID_HOME}/tools:$ANDROID_HOME/platform-tools:$PATH
 
+RUN mkdir -p "$ANDROID_SDK/licenses" && \
+    echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_SDK/licenses/android-sdk-license" && \
+    echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_SDK/licenses/android-sdk-preview-license"
+
 # Install Android SDK components
 ENV ANDROID_VERSION 25
 ENV ANDROID_TOOLS_VERSION 25.0.2

@@ -3,6 +3,8 @@ FROM java:8
 MAINTAINER Yourtion <yourtion@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
+# Everything will be installed in the directory but jdk.
+ENV SDK_HOME /usr/local
 
 # Install dependencies
 RUN dpkg --add-architecture i386 && \
@@ -10,19 +12,16 @@ RUN dpkg --add-architecture i386 && \
     apt-get -qqy install libc6:i386 libstdc++6:i386 zlib1g:i386 libncurses5:i386 tar git --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# Everything will be installed in the directory but jdk.
-ENV SDK_HOME /usr/local \
-    ANDROID_SDK_VERSION 25.2.4 \
-    ANDROID_SDK_URL http://dl.google.com/android/repository/tools_r${ANDROID_SDK_VERSION}-linux.zip \
-
-    ANDROID_HOME ${SDK_HOME}/android-sdk-linux \
-    ANDROID_SDK ${SDK_HOME}/android-sdk-linux \
-    PATH ${ANDROID_HOME}/tools:$ANDROID_HOME/platform-tools:$PATH
-
+# Download and untar Android SDK
+ENV ANDROID_SDK_VERSION 25.2.4
+ENV ANDROID_SDK_URL http://dl.google.com/android/repository/tools_r${ANDROID_SDK_VERSION}-linux.zip
 RUN curl -L "${ANDROID_SDK_URL}" > android-sdk.zip && \
     unzip android-sdk.zip -d ${SDK_HOME}/android-sdk-linux && \
-    rm android-sdk.zip && \
+    rm android-sdk.zip
+ENV ANDROID_HOME ${SDK_HOME}/android-sdk-linux
+ENV ANDROID_SDK ${SDK_HOME}/android-sdk-linux
+ENV PATH ${ANDROID_HOME}/tools:$ANDROID_HOME/platform-tools:$PATH
 
-    mkdir -p "$ANDROID_SDK/licenses" && \
+RUN mkdir -p "$ANDROID_SDK/licenses" && \
     echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_SDK/licenses/android-sdk-license" && \
     echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_SDK/licenses/android-sdk-preview-license"
